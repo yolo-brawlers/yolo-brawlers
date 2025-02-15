@@ -10,3 +10,4 @@
 ## Resources
 
 -   ![Ultralytics Coco Pose Estimation](https://docs.ultralytics.com/datasets/pose/coco/)
+-   ![Ultralytics Pose Estimation Tasks](https://docs.ultralytics.com/tasks/pose/)
