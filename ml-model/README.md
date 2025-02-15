@@ -6,3 +6,7 @@
 3. Enter the conda environment by entering `conda activate ultralytics-env`
 4. Install ultralytics on the conda environment using `pip install ultralytics`
 5. Run yoloV11.py script using `python3 yoloV11.py` or yolo11nLabelKeypoints.py using `python3 yolo11nLabelKeypoints.py`
+
+## Resources
+
+-   ![Ultralytics Coco Pose Estimation](https://docs.ultralytics.com/datasets/pose/coco/)

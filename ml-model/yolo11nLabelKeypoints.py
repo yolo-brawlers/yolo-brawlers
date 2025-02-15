@@ -34,7 +34,6 @@ while cap.isOpened():
 
     # Run inference
     results = model(frame, device="cpu")  # Use 'cpu' due to MPS Pose bug
-
     for result in results:
         keypoints = result.keypoints.xy  # Extract keypoints
 
