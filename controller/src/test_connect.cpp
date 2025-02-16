@@ -11,7 +11,7 @@ WiFiServer server(8080);
 Servo servos[4];  // Array to hold up to 4 servo objects
 
 // GPIO pins for servos
-const int servoPins[] = {13, 12, 14, 27};  // Adjust pins as needed
+const int servoPins[] = {18, 12, 14, 27};  // Adjust pins as needed
 // const int MAX_SERVOS = 4;
 
 void setup() {
@@ -47,7 +47,7 @@ void loop() {
                     // buffer[1] is servo number, buffer[2] is angle
                     if (buffer[1] < MAX_SERVOS) {
                         int angle = constrain(buffer[2], 0, 180);
-                        servos[buffer[1]].write(angle);
+                        servos[0].write(angle);
                         Serial.printf("Setting servo %d to angle %d\n", buffer[1], angle);
                     }
                 } else {  // GPIO control command

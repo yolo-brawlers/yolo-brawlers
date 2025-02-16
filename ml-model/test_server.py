@@ -76,11 +76,11 @@ if __name__ == "__main__":
     
     print("starting")
     # Example: Control GPIO pins
-    controller.set_pin(2, 1)  # Set GPIO2 HIGH
-    time.sleep(1)
-    controller.set_pin(2, 0)  # Set GPIO2 LOW
+    # controller.set_pin(18, 1)  # Set GPIO2 HIGH
+    # time.sleep(1)
+    # controller.set_pin(18, 0)  # Set GPIO2 LOW
     
     # Example: Control servos
-    controller.set_servo(1, 90)  # Set servo 1 to 90 degrees
+    controller.set_servo(18, 90)  # Set servo 1 to 90 degrees
     
     controller.close()
