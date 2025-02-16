@@ -1,8 +1,8 @@
 import time
 from yolo_fightingpose_detection import ZonePoseDetector, FightingPose
-from controller import Toytoy_Controller
+from controller import ToyController
 
-def handle_pose(pose, toy_controller : Toytoy_Controller):
+def handle_pose(pose, toy_controller : ToyController):
     """Send appropriate servo commands based on detected pose."""
     if pose == FightingPose.PUNCH_RIGHT:
         toy_controller.set_servo(0, 0, 90)  # Toy 1, Trigger 1, 90 degrees

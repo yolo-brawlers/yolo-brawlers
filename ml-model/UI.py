@@ -5,7 +5,8 @@ from PyQt5.QtGui import QPixmap, QImage, QFont
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 import sys
 import os
-from yolo_fightingpose_detection import ZonePoseDetector, ToyController
+from yolo_fightingpose_detection import ZonePoseDetector
+from controller import ToyController
 from client import handle_pose
 
 class VideoThread(QThread):
