@@ -128,7 +128,6 @@ class ZonePoseDetector:
         #     return FightingPose.WEAVE_LEFT
         
         
-        
         # Default to guard if in center or buffer zones
         return FightingPose.GUARD
 

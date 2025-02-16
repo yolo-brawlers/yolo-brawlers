@@ -1,6 +1,9 @@
 import socket
 import struct
 import time
+from yolo_fightingpose_detection import ZonePoseDetector, FightingPose
+s
+
 
 
 class ToyController:
