@@ -1,3 +1,4 @@
+# yolo_fightingpose_detection.py
 from ultralytics import YOLO
 import cv2
 import torch
@@ -164,39 +165,5 @@ class ZonePoseDetector:
             
         return frame, None
 
-def main():
-    detector = ZonePoseDetector()
-    cap = cv2.VideoCapture(0)
-    
-    if not cap.isOpened():
-        print("Error: Could not open camera.")
-        exit()
-    
-    current_pose = None
-    
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            print("Error: Failed to capture frame.")
-            break
-        
-        # Process frame and get pose
-        annotated_frame, pose = detector.process_frame(frame)
-        
-        # Update current pose if a new pose is detected
-        if pose is not None:
-            if pose != current_pose:  # Only print when pose changes
-                current_pose = pose
-                print(f"Current pose: {current_pose.value}")
-        
-        # Display the frame
-        cv2.imshow("Fighting Pose Detection", annotated_frame)
-        
-        if cv2.waitKey(1) & 0xFF == ord('q'):  # Press 'q' to quit
-            break
-    
-    cap.release()
-    cv2.destroyAllWindows()
-
 if __name__ == "__main__":
-    main()
+    print("This script is meant to be imported, not run directly.")
