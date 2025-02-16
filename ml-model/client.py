@@ -24,7 +24,10 @@ def handle_pose(pose):
     elif pose == FightingPose.WEAVE_RIGHT:
         controller.set_servo(0, 2, 90)  # Toy 1, Weave, 90 degrees
     elif pose == FightingPose.WEAVE_LEFT:
-        controller.set_servo(0, 2, 90)  # Toy 1, Weave, 90 degrees
+        controller.set_servo(0, 2, 180)  # Toy 1, Weave, -90 degrees
+        # TODO: The angle is probably wrong, adjust as needed
+    elif pose == FightingPose.GUARD:
+        controller.set_servo(0, 2, 0) # Toy 1, weave back to the center
 
     # Delay to prevent rapid-fire commands
     time.sleep(0.5)
