@@ -38,11 +38,11 @@ class ToyController:
         # Check angle restrictions for toy1
         if toy_id == 0:  # toy1
             if servo_type == 0:  # trigger1
-                if angle < 90 or angle > 145:
+                if angle < 110 or angle > 150:
                     print("Toy 1 Trigger 1 angle must be between 90 and 145 degrees")
                     return False
             elif servo_type == 1:  # trigger2
-                if angle > 70 or angle < 20:
+                if angle > 70 or angle < 30:
                     print("Toy 1 Trigger 2 angle must be between 90 and 145 degrees")
                     return False
 
@@ -71,12 +71,12 @@ class ToyController:
 
     def toggle_toy1_t1(self):
         """Toggle Toy 1 Trigger 1 between 90 and 145 degrees"""
-        self.toy1_t1_pos = 145 if self.toy1_t1_pos == 90 else 90
+        self.toy1_t1_pos = 150 if self.toy1_t1_pos == 110 else 110
         return self.set_servo(0, 0, self.toy1_t1_pos)
 
     def toggle_toy1_t2(self):
         """Toggle Toy 1 Trigger 2 between 90 and 145 degrees"""
-        self.toy1_t2_pos = 20 if self.toy1_t2_pos == 70 else 70
+        self.toy1_t2_pos = 30 if self.toy1_t2_pos == 70 else 70
         return self.set_servo(0, 1, self.toy1_t2_pos)
 
 
