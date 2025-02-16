@@ -1,4 +1,3 @@
-// ESP32 Server Code (main.cpp)
 #include <ESP32Servo.h>
 #include <WiFi.h>
 
@@ -10,7 +9,7 @@ WiFiServer server(8080);
 // Servo Definitions
 #define TOTAL_TOYS 2
 #define TRIGGERS_PER_TOY 2
-#define TOTAL_SERVOS (TOTAL_TOYS * (TRIGGERS_PER_TOY + 1)) // 2 triggers + 1 weave per toy
+#define TOTAL_SERVOS (TOTAL_TOYS * (TRIGGERS_PER_TOY + 1))
 
 // Servo pins configuration
 const int toy1_trigger1_pin = 18;
@@ -25,7 +24,12 @@ Servo servos[TOTAL_SERVOS];
 const int servoPins[] = {toy1_trigger1_pin, toy1_trigger2_pin, toy1_weave_pin,
                          toy2_trigger1_pin, toy2_trigger2_pin, toy2_weave_pin};
 
-// Command structure for better organization
+// PWM Configuration for maximum speed
+#define SERVO_FREQ 250       // Increased PWM frequency
+#define MIN_PULSE_WIDTH 500  // Minimum pulse width in microseconds
+#define MAX_PULSE_WIDTH 2400 // Maximum pulse width in microseconds
+
+// Command structure
 struct ServoCommand {
   uint8_t toy_id;     // 0 or 1 for toy1/toy2
   uint8_t servo_type; // 0=trigger1, 1=trigger2, 2=weave
@@ -41,10 +45,16 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(WiFi.softAPIP());
 
-  // Initialize all servos
+  // Initialize all servos with optimized settings
+  ESP32PWM::allocateTimer(0);
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+
   for (int i = 0; i < TOTAL_SERVOS; i++) {
-    servos[i].attach(servoPins[i]);
-    servos[i].write(90); // Set to center position
+    servos[i].setPeriodHertz(SERVO_FREQ); // Set higher frequency
+    servos[i].attach(servoPins[i], MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+    servos[i].write(90);
     Serial.printf("Initialized servo %d on pin %d\n", i, servoPins[i]);
   }
 
@@ -52,7 +62,7 @@ void setup() {
 }
 
 int getServoIndex(uint8_t toy_id, uint8_t servo_type) {
-  return (toy_id * 3) + servo_type; // 3 servos per toy
+  return (toy_id * 3) + servo_type;
 }
 
 void handleServoCommand(ServoCommand cmd) {
@@ -64,9 +74,11 @@ void handleServoCommand(ServoCommand cmd) {
   int servo_index = getServoIndex(cmd.toy_id, cmd.servo_type);
   int angle = constrain(cmd.angle, 0, 180);
 
-  servos[servo_index].writeMicroseconds(map(angle, 0, 180, 500, 2400));
+  // Direct microsecond control for faster response
+  int pulseWidth = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+  servos[servo_index].writeMicroseconds(pulseWidth);
 
-      const char *servo_names[] = {"Trigger1", "Trigger2", "Weave"};
+  const char *servo_names[] = {"Trigger1", "Trigger2", "Weave"};
   Serial.printf("Toy%d %s set to angle %d\n", cmd.toy_id + 1,
                 servo_names[cmd.servo_type], angle);
 }
@@ -79,32 +91,27 @@ void loop() {
       if (client.available() >= 3) {
         uint8_t buffer[3];
         size_t bytesRead = client.read(buffer, 3);
-
         if (bytesRead == 3) {
           ServoCommand cmd = {
               .toy_id = buffer[0], .servo_type = buffer[1], .angle = buffer[2]};
-
           handleServoCommand(cmd);
           client.write("OK");
         }
       }
-      delay(1);
     }
     client.stop();
     Serial.println("Client disconnected");
   }
 
-  // Also handle serial commands for direct control
+  // Handle serial commands with optimized parsing
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n');
     command.trim();
 
-    // Parse commands like "toy1_t1:90" or "toy2_w:45"
     int separator = command.indexOf(':');
     if (separator > 0) {
       String prefix = command.substring(0, separator);
       int angle = command.substring(separator + 1).toInt();
-
       ServoCommand cmd = {0, 0, (uint8_t)angle};
 
       if (prefix.startsWith("toy1_")) {
