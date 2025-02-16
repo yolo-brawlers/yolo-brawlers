@@ -32,7 +32,7 @@ if os.path.exists(video_file):
 model = YOLO("yolo11n-pose.pt")  # Ensure correct model filename
 
 # Open camera
-cap = cv2.VideoCapture(1)  
+cap = cv2.VideoCapture(0)  
 
 # Get default frame width and height
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
