@@ -11,3 +11,7 @@
 
 -   ![Ultralytics Coco Pose Estimation](https://docs.ultralytics.com/datasets/pose/coco/)
 -   ![Ultralytics Pose Estimation Tasks](https://docs.ultralytics.com/tasks/pose/)
+
+## Notes
+
+- For Macbook Intel Chip you need to install `pip install "numpy<2"` manually.
