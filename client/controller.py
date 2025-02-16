@@ -8,10 +8,19 @@ class ToyController:
         self.host = host
         self.port = port
         self.socket = None
-        self.trigger1_pos = trigger1_pos  # Starting position for trigger 1
-        self.trigger2_pos = trigger2_pos  # Starting position for trigger 2
-        self.weave_pos = weave_pos  # Starting position for weave
+        
         self.toy_id = toy_id 
+
+        self.set_servo(toy_id, 0, trigger1_pos)  # Starting position for trigger 1
+        self.trigger1_pos = trigger1_pos
+
+        self.set_servo(toy_id, 0, trigger2_pos)  # Starting position for trigger 2 (left punch)
+        self.trigger2_pos = trigger2_pos
+
+        self.weave = self.set_servo(toy_id, 0, weave_pos)  # Starting position should be guard
+        self.weave = weave_pos
+
+        # Servo IDs
         self.servo_right_punch = 0
         self.servo_left_punch = 1
         self.servo_weave = 2
