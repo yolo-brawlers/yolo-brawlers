@@ -33,33 +33,38 @@ void setup() {
 }
 
 void loop() {
-    WiFiClient client = server.available();
-    
-    if (client) {
-        Serial.println("New client connected");
-        
-        while (client.connected()) {
-            if (client.available() >= 2) {  // Minimum packet size
-                uint8_t buffer[3];
-                client.read(buffer, 3);
-                
-                if (buffer[0] == 0xFF) {  // Servo control command
-                    // buffer[1] is servo number, buffer[2] is angle
-                    if (buffer[1] < MAX_SERVOS) {
-                        int angle = constrain(buffer[2], 0, 180);
-                        servos[0].write(angle);
-                        Serial.printf("Setting servo %d to angle %d\n", buffer[1], angle);
-                    }
-                } else {  // GPIO control command
-                    // buffer[0] is pin number, buffer[1] is value
-                    pinMode(buffer[0], OUTPUT);
-                    digitalWrite(buffer[0], buffer[1]);
-                    Serial.printf("Setting GPIO %d to %d\n", buffer[0], buffer[1]);
-                }
+  WiFiClient client = server.available();
+
+  if (client) {
+    Serial.println("New client connected");
+
+    while (client.connected()) {
+      if (client.available() >= 3) { // Changed to 3 bytes minimum
+        uint8_t buffer[3];
+        size_t bytesRead = client.read(buffer, 3);
+
+        if (bytesRead == 3) {      // Ensure we read all 3 bytes
+          if (buffer[0] == 0xFF) { // Servo control command
+            if (buffer[1] < MAX_SERVOS) {
+              int angle = constrain(buffer[2], 0, 180);
+              servos[buffer[1]].write(angle);
+              Serial.printf("Setting servo %d to angle %d\n", buffer[1], angle);
+              // Send acknowledgment
+              client.write("OK");
             }
+          } else { // GPIO control command
+            pinMode(buffer[0], OUTPUT);
+            digitalWrite(buffer[0], buffer[1]);
+            Serial.printf("Setting GPIO %d to %d\n", buffer[0], buffer[1]);
+            // Send acknowledgment
+            client.write("OK");
+          }
         }
-        
-        client.stop();
-        Serial.println("Client disconnected");
+      }
+      delay(1); // Give other tasks a chance to run
     }
+
+    client.stop();
+    Serial.println("Client disconnected");
+  }
 }
