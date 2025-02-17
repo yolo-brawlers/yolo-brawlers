@@ -398,7 +398,7 @@ class MainWindow(QWidget):
         instructions = QLabel(
             "Welcome to YOLO Brawlers! Here's how to control your character:"
         )
-        instructions.setFont(QFont("Roboto", 14))
+        instructions.setFont(QFont("Roboto", 20))
         instructions.setWordWrap(True)
         instructions.setStyleSheet("color: white; margin: 10px;")  # Changed to white for visibility
 
@@ -419,7 +419,7 @@ class MainWindow(QWidget):
         connection_instruction = QLabel(
             f"Connect to the {wifi_network} WiFi network to control your character.\n"
         )
-        connection_instruction.setFont(QFont("Roboto", 14))
+        connection_instruction.setFont(QFont("Roboto", 20))
         connection_instruction.setWordWrap(True)
         connection_instruction.setStyleSheet("color: #ffffff; margin: 10px;")
         instructions_layout.addWidget(connection_instruction)
@@ -433,8 +433,8 @@ class MainWindow(QWidget):
             "• Q Key       - Toggle Trigger 2\n"
             "• ESC Key     - Exit"
         )
-        control_list.setFont(QFont("Consolas", 14))
-        control_list.setStyleSheet("color: #ffffff;")
+        control_list.setFont(QFont("Consolas", 20))
+        control_list.setStyleSheet("color: #ffffff; padding: 20px 30px;")
 
         instructions_layout.addWidget(control_list)
 
@@ -461,8 +461,8 @@ class MainWindow(QWidget):
         self.radio_chip_group = QButtonGroup(control_page)
         self.radio_chip_0 = QRadioButton("Intel/AMD")
         self.radio_chip_1 = QRadioButton("Apple Silicon")
-        self.radio_chip_0.setFont(QFont("Roboto", 14))
-        self.radio_chip_1.setFont(QFont("Roboto", 14))
+        self.radio_chip_0.setFont(QFont("Roboto", 20))
+        self.radio_chip_1.setFont(QFont("Roboto", 20))
         self.radio_chip_0.setChecked(True)
         self.radio_chip_group.addButton(self.radio_chip_0, 0)
         self.radio_chip_group.addButton(self.radio_chip_1, 1)
@@ -477,7 +477,7 @@ class MainWindow(QWidget):
 
         # Keyboard controller button
         self.btn_keyboard = QPushButton("Start Keyboard Controller", control_page)
-        self.btn_keyboard.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
+        self.btn_keyboard.setFont(QFont("Roboto", 20, QFont.Weight.Bold))
         self.btn_keyboard.setMinimumHeight(50)
         self.btn_keyboard.setStyleSheet("""
             QPushButton {
@@ -497,7 +497,7 @@ class MainWindow(QWidget):
 
         # Camera button
         self.btn_camera = QPushButton("Start Pose Controller", control_page)
-        self.btn_camera.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
+        self.btn_camera.setFont(QFont("Roboto", 20, QFont.Weight.Bold))
         self.btn_camera.setMinimumHeight(50)
         self.btn_camera.setStyleSheet("""
             QPushButton {
