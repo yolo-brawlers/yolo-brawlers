@@ -40,7 +40,7 @@ class MainWindow(QWidget):
         self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Robot ID Section
-        self.robot_id_group = QGroupBox("Robot ID")
+        self.robot_id_group = QGroupBox("Choose Your Player!")
         self.robot_id_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
         self.robot_id_layout = QVBoxLayout()
 
@@ -50,8 +50,8 @@ class MainWindow(QWidget):
 
         # Radio Button Group for toy_id Selection
         self.radio_toy_group = QButtonGroup(self)
-        self.radio_toy_0 = QRadioButton("0")
-        self.radio_toy_1 = QRadioButton("1")
+        self.radio_toy_0 = QRadioButton("Player 1")
+        self.radio_toy_1 = QRadioButton("Player 2")
         self.radio_toy_0.setChecked(True)  # Default selection(Robot ID 0 is selcted)
         self.radio_toy_group.addButton(self.radio_toy_0, 0)
         self.radio_toy_group.addButton(self.radio_toy_1, 1)
@@ -102,8 +102,11 @@ class MainWindow(QWidget):
         self.main_layout.addWidget(self.test_connection_group)
         self.main_layout.addWidget(self.chip_group)
         self.main_layout.addWidget(self.btn_camera)
+        self.btn_keyboard = QPushButton("Start Keyboard Controller", self)
+        self.btn_keyboard.clicked.connect(self.start_keyboard_controller)
+        self.main_layout.addWidget(self.btn_keyboard)
+        
         self.main_layout.addStretch()
-
         self.setLayout(self.main_layout)
 
     def open_camera(self):
@@ -119,10 +122,17 @@ class MainWindow(QWidget):
             print("Failed to connect to ESP32.")
 
     def start_keyboard_controller(self):
-        """Starts the keyboard controller from the client module."""
-        # self.controller = KeyboardController()  # Replace with actual class
-        # self.controller.run()  # Start the keyboard controller
-        pass
+        """Starts the keyboard controller in a dialog."""
+        try:
+            from client.KeyboardController import KeyboardController
+            from keyboard_controller_dialog import KeyboardControllerDialog
+            selected_robot_id = self.radio_toy_group.checkedId()
+            self.controller = KeyboardController(toy_id=selected_robot_id)
+            dialog = KeyboardControllerDialog(self.controller, self)
+            dialog.exec_()
+            
+        except Exception as e:
+            print(f"Failed to start keyboard controller: {e}")
     
     def test_robot_connection(self):
         """Pings the detected local IP address and updates the UI with success/failure."""
