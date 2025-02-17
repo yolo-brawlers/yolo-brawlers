@@ -14,6 +14,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("YOLO Brawlers")
+        self.player_cards = {}
         
         # Get screen size
         screen_geometry = QDesktopWidget().availableGeometry()
@@ -184,7 +185,7 @@ class MainWindow(QWidget):
         
         # Title
         title = QLabel("Choose Your Player", player_page)
-        title.setFont(QFont("Roboto", 36, QFont.Weight.Bold))
+        title.setFont(QFont("Roboto", 24, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("color: #2c3e50; margin: 30px;")
         
@@ -194,11 +195,11 @@ class MainWindow(QWidget):
         players_layout.setContentsMargins(40, 20, 40, 20)
         
         # Player 1 card
-        player1_frame = self.create_player_card("Player 1", "player1.png", 0)
+        player1_frame = self.create_player_card("Player 1", "p1.png", 0, "p1_selected.png")
         players_layout.addWidget(player1_frame)
         
         # Player 2 card
-        player2_frame = self.create_player_card("Player 2", "player2.png", 1)
+        player2_frame = self.create_player_card("Player 2", "p2.png", 1, "p2_selected.png")
         players_layout.addWidget(player2_frame)
         
         # Continue button
@@ -248,7 +249,7 @@ class MainWindow(QWidget):
         player_page.setLayout(layout)
         self.stacked_widget.addWidget(player_page)
     
-    def create_player_card(self, name, image_path, player_id):
+    def create_player_card(self, name, image_path, player_id, new_image_path):
         """Create a styled player card with drop shadow"""
         frame = QFrame()
         if name == "Player 1":
@@ -284,6 +285,7 @@ class MainWindow(QWidget):
         
         # Player image (placeholder)
         image = QLabel()
+
         try:
             pixmap = QPixmap(image_path)
             image.setPixmap(pixmap.scaled(280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
@@ -295,30 +297,39 @@ class MainWindow(QWidget):
         
         # Player name
         name_label = QLabel(name)
-        name_label.setFont(QFont("Roboto", 18, QFont.Weight.Bold))
+        name_label.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
         name_label.setStyleSheet("color: white;")
         name_label.setAlignment(Qt.AlignCenter)
-        
-        # Selection indicator
-        select_label = QLabel("Click to select")
-        select_label.setStyleSheet("color: #bdc3c7;")
-        select_label.setAlignment(Qt.AlignCenter)
-        
+    
         # Add widgets to card layout
         card_layout.addWidget(image, alignment=Qt.AlignCenter)
         card_layout.addWidget(name_label)
-        card_layout.addWidget(select_label)
+
+        self.player_cards[player_id] = (frame, image, image_path)
         
         # Connect click event
-        frame.mousePressEvent = lambda event, id=player_id: self.select_player(id, frame)
+        frame.mousePressEvent = lambda event, id=player_id: self.select_player(id, frame, image, image_path, new_image_path)
         
         return frame
-    
-    def select_player(self, player_id, frame):
+
+    def set_image(self, image, image_path):
+        try:
+            pixmap = QPixmap(image_path)
+            image.setPixmap(pixmap.scaled(280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        except:
+            image.setStyleSheet("background-color: #2c3e50; border-radius: 10px;")
+            image.setFixedSize(280, 280)
+
+        image.setAlignment(Qt.AlignCenter)
+
+
+    def select_player(self, player_id, frame, image, image_path, new_image_path):
         """Handle player selection and deselection"""
         # If clicking the already selected player, deselect it
         if self.selected_player == player_id:
+            self.set_image(image, image_path)  # Restore original image
             self.selected_player = None
+
             # Reset frame to original color
             if player_id == 0:
                 frame.setStyleSheet("""
@@ -336,9 +347,16 @@ class MainWindow(QWidget):
                         padding: 15px;
                     }
                 """)
+
         else:
+            # Deselect any previously selected player
+            if self.selected_player is not None:
+                self.reset_previous_selection()
+
             self.selected_player = player_id
-            # Update selected frame color
+
+            # Update frame and image for the newly selected player
+            self.set_image(image, new_image_path)  # Show new image
             if player_id == 0:
                 frame.setStyleSheet("""
                     QFrame {
@@ -355,6 +373,31 @@ class MainWindow(QWidget):
                         padding: 15px;
                     }
                 """)
+
+    def reset_previous_selection(self):
+        """Reset the previously selected player."""
+        if self.selected_player is not None:
+            frame, image, image_path = self.player_cards[self.selected_player]
+            self.set_image(image, image_path)  # Restore original image
+
+            # Restore original color
+            if self.selected_player == 0:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #f76c59;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
+            else:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #4382e8;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
+
     
     def create_control_page(self):
         """Create the control page with instructions and buttons"""
