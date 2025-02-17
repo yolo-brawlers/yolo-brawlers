@@ -3,11 +3,20 @@
 Yolo Brawlers is an OpenCV project created for HackED 2025! You can find more information about this project
 on [DevPost](https://devpost.com/software/yolo-brawlers) regarding the project development process, objectives, and motivation.
 
-# Description
+## Description
 
 Yolo Brawlers is an interactive real-time motion-controlled game where two players control robotic fighters using their own body movements. Using [YOLO V11 Pose Detection](https://github.com/ultralytics/ultralytics), the system translates human fighting moves into commands for the robots, making them punch, weave, and guard dynamically.
 
-# How It Works
+## Gallery
+![IMG_4483](https://github.com/user-attachments/assets/f2ba38a2-d61a-440a-8a33-d0f62f6f3232)
+
+![19C21752-C7D1-428F-B070-E98F84A3DB98_4_5005_c](https://github.com/user-attachments/assets/cdbb7106-7beb-42ac-8e96-8922efde17bd)
+
+![image](https://github.com/user-attachments/assets/fb3f225c-a0a8-469a-aaa4-b4840ad9dbf2)
+
+![image](https://github.com/user-attachments/assets/d8341888-6c11-46dc-a18b-117827af595b)
+
+## How It Works
 
 1. Pose Detection (YOLO + OpenCV): The system uses YOLO pose estimation to track players' movements in real time.
 2. Move Classification: The AI recognizes different fighting poses (punches, weaves, guard stance).
@@ -15,14 +24,14 @@ Yolo Brawlers is an interactive real-time motion-controlled game where two playe
 4. Robot Control: Detected player actions are sent to the ESP32 controller using sockets at its WiFi access point. The data is used to control the robots to mimic boxing maneuvers like punching, weaving and guarding.
 5. Multiplayer Battle: Two players compete by controlling their own robotic fighters with body movements.
 
-# Tech/Hardware Stack
+## Tech/Hardware Stack
 
 -   Python, PyQt5 → Graphical user interface (UI) for starting/stopping the game.
 -   YOLO (Ultralytics) → Pose detection for movement tracking.
 -   OpenCV → Real-time camera feed processing.
 -   C++, ESP32, Servo Motors → Robot motion control.
 
-# Getting Started
+## Getting Started
 
 1. Install conda on your local machine through this [link](https://docs.anaconda.com/anaconda/install/) or through the OS package manager provided.
 2. For Apple Silicon based chips:
@@ -39,12 +48,12 @@ Yolo Brawlers is an interactive real-time motion-controlled game where two playe
 2. Navigate to the ./UI directory and run `python finalUI.py`
 3. Follow the instructions on the UI
 
-# Notes
+## Notes
 
 -   For Macbook Intel Chip you need to install `pip install "numpy<2"` manually.
 -   For any Apple Silicon Chips you cannot access the keyboard controller.
 
-# Resources
+## Resources
 
 -   [Ultralytics Coco Pose Estimation](https://docs.ultralytics.com/datasets/pose/coco/)
 -   [Ultralytics Pose Estimation Tasks](https://docs.ultralytics.com/tasks/pose/)
