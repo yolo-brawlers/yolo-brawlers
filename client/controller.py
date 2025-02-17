@@ -9,16 +9,26 @@ class ToyController:
         self.port = port
         self.socket = None
         
-        self.toy_id = toy_id 
+        self.toy_id = toy_id
 
-        self.set_servo(toy_id, 0, trigger1_pos)  # Starting position for trigger 1
-        self.trigger1_pos = trigger1_pos
+        if toy_id == 0:  # Player 1
+            self.set_servo(toy_id, 0, trigger1_pos)  # Starting position for trigger 1
+            self.trigger1_pos = trigger1_pos
 
-        self.set_servo(toy_id, 0, trigger2_pos)  # Starting position for trigger 2 (left punch)
-        self.trigger2_pos = trigger2_pos
+            self.set_servo(toy_id, 1, trigger2_pos)  # Starting position for trigger 2 (left punch)
+            self.trigger2_pos = trigger2_pos
 
-        self.weave = self.set_servo(toy_id, 0, weave_pos)  # Starting position should be guard
-        self.weave = weave_pos
+            self.weave = self.set_servo(toy_id, 2, weave_pos)  # Starting position should be guard
+            self.weave = weave_pos
+        else:  # Player 2
+            self.trigger1_pos = 0
+            self.set_servo(toy_id, 0, self.trigger1_pos)  # Starting position for trigger 1
+
+            self.trigger2_pos = 90
+            self.set_servo(toy_id, 1, self.trigger2_pos)  # Starting position for trigger 2 (left punch)
+
+            self.weave_pos = 90
+            self.weave = self.set_servo(toy_id, 2, self.weave_pos)  # Starting position should be guard
 
         # Servo IDs
         self.servo_right_punch = 0
@@ -69,12 +79,12 @@ class ToyController:
 
     def toggle_trigger1(self):
         """Toggle Toy 1 Trigger 1 between 90 and 145 degrees"""
-        self.trigger1_pos = 150 if self.trigger1_pos == 90 else 90
+        self.trigger1_pos = 90 if self.trigger1_pos == 150 else 150
         return self.set_servo(self.toy_id, self.servo_right_punch, self.trigger1_pos)
 
     def toggle_trigger2(self):
         """Toggle Toy 1 Trigger 2 between 90 and 145 degrees"""
-        self.trigger2_pos = 30 if self.trigger2_pos == 90 else 30
+        self.trigger2_pos = 80 if self.trigger2_pos == 30 else 30
         return self.set_servo(self.toy_id, self.servo_left_punch, self.trigger2_pos)
 
     def weave_right(self):
