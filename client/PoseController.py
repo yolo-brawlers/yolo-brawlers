@@ -7,8 +7,8 @@ from ml_model.yolo_fightingpose_detection import ZonePoseDetector, FightingPose
 from .controller import ToyController
 
 class PoseController(ToyController):
-    def __init__(self, host="192.168.4.1", port=8080):
-        super().__init__(host, port)
+    def __init__(self, host="192.168.4.1", port=8080, toy_id=0):
+        super().__init__(host, port, toy_id)
         self.detector = ZonePoseDetector()
 
     def handle_pose(self, pose):

@@ -24,6 +24,7 @@ class ToyController:
         self.servo_right_punch = 0
         self.servo_left_punch = 1
         self.servo_weave = 2
+        print(f"Hola I'm robot {self.toy_id}")
 
     def connect(self):
         try:
