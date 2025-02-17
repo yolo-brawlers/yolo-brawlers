@@ -3,7 +3,9 @@ import cv2
 import torch
 from enum import Enum
 import numpy as np
+import sys
 from typing import Optional
+sys.path.append("../")
 
 class FightingPose(Enum):
     GUARD = "guard"
@@ -15,7 +17,7 @@ class FightingPose(Enum):
 class ZonePoseDetector:
     def __init__(self):
         # Load the YOLOv11 model
-        self.model = YOLO("yolo11n-pose.pt")
+        self.model = YOLO("../model_assets/yolo11n-pose.pt")
         # Set device to MPS for Apple Silicon; fallback to CPU if unavailable
         self.device = 'mps' if torch.backends.mps.is_available() else 'cpu'
         self.model.to(self.device)
