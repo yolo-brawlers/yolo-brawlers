@@ -19,7 +19,9 @@ import cv2
 import torch
 from enum import Enum
 import numpy as np
+import sys
 from typing import Optional
+sys.path.append("../")
 
 class FightingPose(Enum):
     """
@@ -52,14 +54,9 @@ class ZonePoseDetector:
     """
 
     def __init__(self):
-        """
-        Initializes the ZonePoseDetector class.
-
-        - Loads the YOLO model.
-        - Sets up device compatibility (Apple MPS or CPU).
-        - Initializes zone boundaries.
-        """
-        self.model = YOLO("yolo11n-pose.pt")
+        # Load the YOLOv11 model
+        self.model = YOLO("../model_assets/yolo11n-pose.pt")
+        # Set device to MPS for Apple Silicon; fallback to CPU if unavailable
         self.device = 'mps' if torch.backends.mps.is_available() else 'cpu'
         self.model.to(self.device)
 

@@ -1,4 +1,4 @@
-*.pt
+# *.pt
 *.csv
 *.mp4
 *.DS_Store
