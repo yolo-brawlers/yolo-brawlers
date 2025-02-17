@@ -105,7 +105,7 @@ class ToyController:
     def weave_left(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
         if self.toy_id == 0:
-            self.weave_pos = 135
+            self.weave_pos = 110
         else:
             self.weave_pos = 135
         return self.set_servo(0, 2, self.weave_pos)
