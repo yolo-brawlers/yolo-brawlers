@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
-                            QGroupBox, QRadioButton, QButtonGroup, QStackedWidget,
-                            QFrame, QSizePolicy, QApplication, QDesktopWidget)
-from PyQt5.QtCore import Qt, QSize, QTimer
-from PyQt5.QtGui import QFont, QIcon, QPixmap, QColor, QPalette, QFontDatabase
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+from PyQt5.QtGui import QFont, QIcon, QPixmap, QColor, QPalette, QFontDatabase
+from PyQt5.QtCore import Qt, QSize, QTimer
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
+                             QGroupBox, QRadioButton, QButtonGroup, QStackedWidget,
+                             QFrame, QSizePolicy, QApplication, QDesktopWidget, QDialog)
+
 import sys
 
 sys.path.append("../")
-from client.PoseController import PoseController
+
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -15,7 +16,7 @@ class MainWindow(QWidget):
 
         self.setWindowTitle("YOLO Brawlers")
         self.player_cards = {}
-        
+
         # Get screen size
         screen_geometry = QDesktopWidget().availableGeometry()
         self.window_width = 1500
@@ -56,16 +57,20 @@ class MainWindow(QWidget):
     def load_fonts(self):
         """Load custom fonts for pixel art style"""
         # Pixel font for regular text
-        self.pixel_font_id = QFontDatabase.addApplicationFont("VT323-Regular.ttf")
-        self.pixel_font_family = QFontDatabase.applicationFontFamilies(self.pixel_font_id)
+        self.pixel_font_id = QFontDatabase.addApplicationFont(
+            "VT323-Regular.ttf")
+        self.pixel_font_family = QFontDatabase.applicationFontFamilies(
+            self.pixel_font_id)
         if self.pixel_font_family:
             self.pixelated_font = QFont(self.pixel_font_family[0], 24)
         else:
             self.pixelated_font = QFont("Arial", 24)  # Fallback font
 
         # Title font for main headings
-        self.title_font_id = QFontDatabase.addApplicationFont("karma-future.otf")
-        self.title_font_family = QFontDatabase.applicationFontFamilies(self.title_font_id)
+        self.title_font_id = QFontDatabase.addApplicationFont(
+            "karma-future.otf")
+        self.title_font_family = QFontDatabase.applicationFontFamilies(
+            self.title_font_id)
         if self.title_font_family:
             self.title_font = QFont(self.title_font_family[0], 50)
         else:
@@ -79,12 +84,13 @@ class MainWindow(QWidget):
 
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(
-                self.window_width, self.window_height, 
+                self.window_width, self.window_height,
                 Qt.KeepAspectRatio, Qt.SmoothTransformation
             )
             background_label.setPixmap(scaled_pixmap)
         background_label.setScaledContents(True)
-        background_label.setGeometry(0, 0, self.window_width, self.window_height)
+        background_label.setGeometry(
+            0, 0, self.window_width, self.window_height)
 
         # Ensure background stays behind other widgets
         background_label.lower()
@@ -101,13 +107,14 @@ class MainWindow(QWidget):
 
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(
-                self.window_width, self.window_height, 
+                self.window_width, self.window_height,
                 Qt.KeepAspectRatio, Qt.SmoothTransformation
             )
             background_label.setPixmap(scaled_pixmap)
         background_label.setScaledContents(True)
         # Make sure it fills the entire window
-        background_label.setGeometry(0, 0, self.window_width, self.window_height)
+        background_label.setGeometry(
+            0, 0, self.window_width, self.window_height)
 
         # "YOLO BRAWLERS" title
         self.title_label = QLabel("YOLO BRAWLERS", start_page)
@@ -219,11 +226,13 @@ class MainWindow(QWidget):
         players_layout.setContentsMargins(40, 20, 40, 20)
 
         # Player 1 card
-        player1_frame = self.create_player_card("Player 1", "assets/p1.png", 0, "assets/p1_selected.png")
+        player1_frame = self.create_player_card(
+            "Player 1", "assets/p1.png", 0, "assets/p1_selected.png")
         players_layout.addWidget(player1_frame)
 
         # Player 2 card
-        player2_frame = self.create_player_card("Player 2", "assets/p2.png", 1, "assets/p2_selected.png")
+        player2_frame = self.create_player_card(
+            "Player 2", "assets/p2.png", 1, "assets/p2_selected.png")
         players_layout.addWidget(player2_frame)
 
         # Continue button
@@ -262,7 +271,8 @@ class MainWindow(QWidget):
                 color: #ffffff;
             }
         """)
-        back_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+        back_button.clicked.connect(
+            lambda: self.stacked_widget.setCurrentIndex(0))
 
         # Add widgets to layout
         layout.addWidget(title)
@@ -274,7 +284,7 @@ class MainWindow(QWidget):
 
         player_page.setLayout(layout)
         self.stacked_widget.addWidget(player_page)
-    
+
     def create_player_card(self, name, image_path, player_id, new_image_path):
         """Create a styled player card with drop shadow"""
         frame = QFrame()
@@ -314,9 +324,11 @@ class MainWindow(QWidget):
 
         try:
             pixmap = QPixmap(image_path)
-            image.setPixmap(pixmap.scaled(280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            image.setPixmap(pixmap.scaled(
+                280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         except:
-            image.setStyleSheet("background-color: #2c3e50; border-radius: 10px;")
+            image.setStyleSheet(
+                "background-color: #2c3e50; border-radius: 10px;")
             image.setFixedSize(280, 280)
 
         image.setAlignment(Qt.AlignCenter)
@@ -326,28 +338,30 @@ class MainWindow(QWidget):
         name_label.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
         name_label.setStyleSheet("color: white;")
         name_label.setAlignment(Qt.AlignCenter)
-    
+
         # Add widgets to card layout
         card_layout.addWidget(image, alignment=Qt.AlignCenter)
         card_layout.addWidget(name_label)
 
         self.player_cards[player_id] = (frame, image, image_path)
-        
+
         # Connect click event
-        frame.mousePressEvent = lambda event, id=player_id: self.select_player(id, frame, image, image_path, new_image_path)
-        
+        frame.mousePressEvent = lambda event, id=player_id: self.select_player(
+            id, frame, image, image_path, new_image_path)
+
         return frame
 
     def set_image(self, image, image_path):
         try:
             pixmap = QPixmap(image_path)
-            image.setPixmap(pixmap.scaled(280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            image.setPixmap(pixmap.scaled(
+                280, 280, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         except:
-            image.setStyleSheet("background-color: #2c3e50; border-radius: 10px;")
+            image.setStyleSheet(
+                "background-color: #2c3e50; border-radius: 10px;")
             image.setFixedSize(280, 280)
 
         image.setAlignment(Qt.AlignCenter)
-
 
     def select_player(self, player_id, frame, image, image_path, new_image_path):
         """Handle player selection and deselection"""
@@ -424,7 +438,6 @@ class MainWindow(QWidget):
                     }
                 """)
 
-    
     def create_control_page(self):
         """Create the control page with instructions and buttons"""
         control_page = QWidget()
@@ -438,7 +451,8 @@ class MainWindow(QWidget):
         title = QLabel("Game Controls", control_page)
         title.setFont(QFont("Roboto", 32, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("color: white; margin: 20px;")  # Changed to white for visibility
+        # Changed to white for visibility
+        title.setStyleSheet("color: white; margin: 20px;")
 
         # Update instructions styling for visibility
         instructions = QLabel(
@@ -446,7 +460,8 @@ class MainWindow(QWidget):
         )
         instructions.setFont(QFont("Roboto", 20))
         instructions.setWordWrap(True)
-        instructions.setStyleSheet("color: white; margin: 10px;")  # Changed to white for visibility
+        # Changed to white for visibility
+        instructions.setStyleSheet("color: white; margin: 10px;")
 
         # Update instructions frame styling for semi-transparency
         instructions_frame = QFrame()
@@ -530,7 +545,8 @@ class MainWindow(QWidget):
         button_layout.setSpacing(20)
 
         # Keyboard controller button
-        self.btn_keyboard = QPushButton("Start Keyboard Controller", control_page)
+        self.btn_keyboard = QPushButton(
+            "Start Keyboard Controller", control_page)
         self.btn_keyboard.setFont(QFont("Roboto", 20, QFont.Weight.Bold))
         self.btn_keyboard.setMinimumHeight(50)
         self.btn_keyboard.setStyleSheet("""
@@ -586,7 +602,8 @@ class MainWindow(QWidget):
                 color: #ffffff;
             }
         """)
-        back_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
+        back_button.clicked.connect(
+            lambda: self.stacked_widget.setCurrentIndex(1))
 
         # Add widgets to layout
         layout.addWidget(title)
@@ -636,20 +653,30 @@ class MainWindow(QWidget):
 
     def open_camera(self):
         """Opens the OpenCV camera directly in a new window."""
+        from calibration_pose import CalibrationDialog
+        from client.PoseController import PoseController
+
+        # pose_detector = ZonePoseDetector()
         camera_mode = int(self.radio_chip_1.isChecked())
 
-        # Minimize application when camera is opened
-        self.showMinimized()
-        print(camera_mode)
-        print(f"Selected Robot ID: {self.selected_player}")  # Print robot id to console
-        controller = PoseController(toy_id=self.selected_player)
-        if controller.connect():
-            controller.run_yolo_mode_UI(camera_mode)
+        # Pass the method reference to the dialog
+        # dialog = CalibrationDialog(
+        #     monitoring_method=lambda: pose_detector.run(camera_mode)
+        # )
 
-            # Once camera is closed, open application
-            self.showNormal()
-        else:
-            print("Failed to connect to ESP32.")
+        dialog = CalibrationDialog()
+
+        if dialog.exec_() == QDialog.Accepted:
+            # Minimize application when camera is opened
+            self.showMinimized()
+            print(camera_mode)
+            print(f"Selected Robot ID: {self.selected_player}")
+            controller = PoseController(toy_id=self.selected_player)
+            if controller.connect():
+                controller.run_yolo_mode_UI(camera_mode)
+                self.showNormal()
+            else:
+                print("Failed to connect to ESP32.")
 
     def test_robot_connection(self):
         """Tests connection to the robot."""
