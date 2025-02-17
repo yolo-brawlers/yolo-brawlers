@@ -4,7 +4,7 @@ import time
 from ml_model.yolo_fightingpose_detection import ZonePoseDetector, FightingPose
 
 class ToyController:
-    def __init__(self, host="192.168.4.1", port=8080, trigger1_pos=90, trigger2_pos=70, weave_pos=90, toy_id=0):
+    def __init__(self, host="192.168.4.1", port=8080, trigger1_pos=90, trigger2_pos=90, weave_pos=90, toy_id=0):
         self.host = host
         self.port = port
         self.socket = None
@@ -79,12 +79,12 @@ class ToyController:
 
     def weave_right(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
-        self.weave_pos = 0
+        self.weave_pos = 30
         return self.set_servo(self.toy_id, self.servo_weave, self.weave_pos)
     
     def weave_left(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
-        self.weave_pos = 180
+        self.weave_pos = 150
         return self.set_servo(self.toy_id, 2, self.weave_pos)
     
     def guard(self):
