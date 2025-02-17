@@ -15,7 +15,7 @@ def main():
         else:
             print("Failed to connect to ESP32.")
     elif mode == "keyboard":
-        controller = KeyboardController()
+        controller = KeyboardController(toy_id=1)  # arg cli
         if controller.connect():
             controller.run_keyboard_mode()
         else:
