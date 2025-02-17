@@ -3,8 +3,8 @@ import sys
 from controller import ToyController
 
 class KeyboardController(ToyController):
-    def __init__(self, host="192.168.4.1", port=8080):
-        super().__init__(host, port)
+    def __init__(self, host="192.168.4.1", port=8080, toy_id=0):
+        super().__init__(host, port, toy_id)
 
     def run_keyboard_mode(self):
         print("Keyboard Control Mode")

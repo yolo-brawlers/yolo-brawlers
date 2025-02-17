@@ -5,7 +5,7 @@ ServoManager::ServoManager() {}
 void ServoManager::init() {
   for (int i = 0; i < TOTAL_SERVOS; i++) {
     servos[i].attach(servoPins[i]);
-    servos[i].write(90); // Set to center position
+    // servos[i].write(90); // Set to center position
     Serial.printf("Initialized servo %d on pin %d\n", i, servoPins[i]);
   }
 }
