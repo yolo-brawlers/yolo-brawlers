@@ -69,16 +69,9 @@ class ZonePoseDetector:
         self.history_length = 3
 
     def setup_zones(self, frame_width):
-        """
-        Sets up the left, right, and center zone boundaries based on frame width.
-
-        The center zone occupies 40% of the frame width, while the left and right zones
-        each take up 30%.
-
-        Args:
-            frame_width (int): Width of the input frame.
-        """
-        middle_zone_width = int(frame_width * 0.36)
+        """Setup the zone boundaries based on frame width with wider middle zone"""
+        # Make middle zone 40% of frame width, leaving 30% for side zones
+        middle_zone_width = int(frame_width * 0.4)
         side_zone_width = (frame_width - middle_zone_width) // 2
 
         self.left_boundary = side_zone_width
