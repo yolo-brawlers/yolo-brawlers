@@ -14,7 +14,7 @@ extern const int WIFI_PORT;
 struct PinConfig {
   static const int toy1_trigger1 = 18;
   static const int toy1_trigger2 = 19;
-  static const int toy1_weave = 14;
+  static const int toy1_weave = 22;
   static const int toy2_trigger1 = 27;
   static const int toy2_trigger2 = 26;
   static const int toy2_weave = 25;
