@@ -9,7 +9,7 @@ class ToyController:
         self.port = port
         self.socket = None
 
-        self.toy_id = 1
+        self.toy_id = toy_id
 
         if self.toy_id == 0:  # Player 1
             self.trigger1_pos = 150

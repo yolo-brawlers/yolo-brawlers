@@ -6,6 +6,8 @@ from PyQt5.QtGui import QFont, QIcon, QPixmap, QColor, QPalette, QFontDatabase
 from PyQt5.QtWidgets import QGraphicsDropShadowEffect
 import sys
 
+sys.path.append("../")
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()

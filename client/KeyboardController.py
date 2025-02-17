@@ -1,6 +1,6 @@
 import keyboard
 import sys
-from controller import ToyController
+from .controller import ToyController
 
 class KeyboardController(ToyController):
     def __init__(self, host="192.168.4.1", port=8080, toy_id=0):
