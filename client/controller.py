@@ -69,22 +69,22 @@ class ToyController:
 
     def toggle_trigger1(self):
         """Toggle Toy 1 Trigger 1 between 90 and 145 degrees"""
-        self.trigger1_pos = 150 if self.trigger1_pos == 110 else 110
+        self.trigger1_pos = 150 if self.trigger1_pos == 90 else 90
         return self.set_servo(self.toy_id, self.servo_right_punch, self.trigger1_pos)
 
     def toggle_trigger2(self):
         """Toggle Toy 1 Trigger 2 between 90 and 145 degrees"""
-        self.trigger2_pos = 30 if self.trigger2_pos == 70 else 70
+        self.trigger2_pos = 30 if self.trigger2_pos == 90 else 30
         return self.set_servo(self.toy_id, self.servo_left_punch, self.trigger2_pos)
 
     def weave_right(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
-        self.weave_pos = 30
+        self.weave_pos = 45
         return self.set_servo(self.toy_id, self.servo_weave, self.weave_pos)
     
     def weave_left(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
-        self.weave_pos = 150
+        self.weave_pos = 135
         return self.set_servo(self.toy_id, 2, self.weave_pos)
     
     def guard(self):
