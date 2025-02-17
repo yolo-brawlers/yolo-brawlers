@@ -3,6 +3,11 @@
 Yolo Brawlers is an OpenCV project created for HackED 2025! You can find more information about this project
 on [DevPost](https://devpost.com/software/yolo-brawlers) regarding the project development process, objectives, and motivation.
 
+## Gallery
+![A03617F5-B129-4E75-8066-61DCA39BA716_1_105_c](https://github.com/user-attachments/assets/48f259d2-46df-4306-810c-89036a56abc7)
+
+![19C21752-C7D1-428F-B070-E98F84A3DB98_4_5005_c](https://github.com/user-attachments/assets/cdbb7106-7beb-42ac-8e96-8922efde17bd)
+
 ## Description
 
 Yolo Brawlers is an interactive real-time motion-controlled game where two players control robotic fighters using their own body movements. Using [YOLO V11 Pose Detection](https://github.com/ultralytics/ultralytics), the system translates human fighting moves into commands for the robots, making them punch, weave, and guard dynamically.
@@ -31,11 +36,6 @@ Yolo Brawlers is an interactive real-time motion-controlled game where two playe
 4. Enter the conda environment by entering `conda activate ultralytics-env`.
 5. Install necessary python libraries in conda environment using `pip install -r requirements.txt`.
 6. Run the project inside the UI folder using `python3 finalUI.py`.
-
-## Gallery
-![19C21752-C7D1-428F-B070-E98F84A3DB98_4_5005_c](https://github.com/user-attachments/assets/cdbb7106-7beb-42ac-8e96-8922efde17bd)
-
-![A03617F5-B129-4E75-8066-61DCA39BA716_1_105_c](https://github.com/user-attachments/assets/48f259d2-46df-4306-810c-89036a56abc7)
 
 ## Notes
 
