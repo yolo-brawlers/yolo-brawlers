@@ -114,7 +114,7 @@ class MainWindow(QWidget):
         print(f"Selected Robot ID: {selected_robot_id}")  # Print robot id to console
         controller = PoseController(toy_id=selected_robot_id)
         if controller.connect():
-            controller.run_yolo_mode(camera_mode)
+            controller.run_yolo_mode_UI(camera_mode)
         else:
             print("Failed to connect to ESP32.")
 
