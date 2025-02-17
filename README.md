@@ -4,9 +4,14 @@ Yolo Brawlers is an OpenCV project created for HackED 2025! You can find more in
 on [DevPost](https://devpost.com/software/yolo-brawlers) regarding the project development process, objectives, and motivation.
 
 ## Gallery
-![A03617F5-B129-4E75-8066-61DCA39BA716_1_105_c](https://github.com/user-attachments/assets/48f259d2-46df-4306-810c-89036a56abc7)
+![IMG_4482](https://github.com/user-attachments/assets/3f4dcaf9-e08c-4cc0-830b-795f5ebaed19)
 
 ![19C21752-C7D1-428F-B070-E98F84A3DB98_4_5005_c](https://github.com/user-attachments/assets/cdbb7106-7beb-42ac-8e96-8922efde17bd)
+
+![image](https://github.com/user-attachments/assets/fb3f225c-a0a8-469a-aaa4-b4840ad9dbf2)
+
+![image](https://github.com/user-attachments/assets/1c99bfd3-fd3b-4c31-a374-35cb5490cdf8)
+
 
 ## Description
 
