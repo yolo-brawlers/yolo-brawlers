@@ -31,12 +31,11 @@ class MainWindow(QWidget):
         self.load_fonts()
 
         # Store selected player
-        self.selected_player = 0
+        self.selected_player = None
         
         # Create pages
         self.create_pixel_art_start_page()
         self.create_player_selection_page()
-        self.create_control_page()
         
         # Set central widget
         # self.setCentralWidget(self.stacked_widget)
@@ -313,28 +312,46 @@ class MainWindow(QWidget):
         return frame
     
     def select_player(self, player_id, frame):
-        """Handle player selection"""
-        self.selected_player = player_id
-        
-        # Update all player frames to remove selection
-        # Update selected frame
-
-        if player_id == 0:
-            frame.setStyleSheet("""
-                QFrame {
-                    background-color: #f23f27;
-                    border-radius: 15px;
-                    padding: 15px;
-                }
-            """)
+        """Handle player selection and deselection"""
+        # If clicking the already selected player, deselect it
+        if self.selected_player == player_id:
+            self.selected_player = None
+            # Reset frame to original color
+            if player_id == 0:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #f76c59;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
+            else:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #4382e8;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
         else:
-            frame.setStyleSheet("""
-                QFrame {
-                    background-color: #3a70c7;
-                    border-radius: 15px;
-                    padding: 15px;
-                }
-            """)
+            self.selected_player = player_id
+            # Update selected frame color
+            if player_id == 0:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #f23f27;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
+            else:
+                frame.setStyleSheet("""
+                    QFrame {
+                        background-color: #0033ea;
+                        border-radius: 15px;
+                        padding: 15px;
+                    }
+                """)
     
     def create_control_page(self):
         """Create the control page with instructions and buttons"""
@@ -367,19 +384,17 @@ class MainWindow(QWidget):
         
         instructions_layout = QVBoxLayout(instructions_frame)
 
-        connection_instruction_layout = QVBoxLayout(instructions_frame)
-        if self.selected_player == 0:
-            wifi = "ESP32_Servo_Control_Red"
-        else:
-            wifi = "ESP32_Servo_Control_Blue"
+        # WiFi network instruction
+        wifi_network = "ESP32_Servo_Control_Red" if self.selected_player == 0 else "ESP32_Servo_Control_Blue"
         connection_instruction = QLabel(
-            f"Connect to the {wifi} WiFi network to control your character.\n"
+            f"Connect to the {wifi_network} WiFi network to control your character.\n"
         )
         connection_instruction.setFont(QFont("Roboto", 14))
         connection_instruction.setWordWrap(True)
         connection_instruction.setStyleSheet("color: #34495e; margin: 10px;")
         instructions_layout.addWidget(connection_instruction)
 
+        # Control instructions
         control_list = QLabel(
             "• Right Arrow - Toggle Toy 1 Trigger 1 (90⇄145 degrees)\n"
             "• Left Arrow  - Toggle Toy 1 Trigger 2 (90⇄145 degrees)\n"
@@ -392,7 +407,6 @@ class MainWindow(QWidget):
         control_list.setStyleSheet("color: #2c3e50;")
         
         instructions_layout.addWidget(control_list)
-
         
         # Chip type selection
         chip_group = QGroupBox("Select Chip Type for Camera")
@@ -508,7 +522,18 @@ class MainWindow(QWidget):
         self.stacked_widget.setCurrentIndex(1)
     
     def go_to_control_page(self):
-        self.stacked_widget.setCurrentIndex(2)
+        """Navigate to control page only if a player is selected"""
+        if self.selected_player is not None:
+            # Remove existing control page if it exists
+            if self.stacked_widget.count() > 2:  # If we have more than start and player selection pages
+                self.stacked_widget.removeWidget(self.stacked_widget.widget(2))
+            
+            # Create new control page with current player selection
+            self.create_control_page()
+            self.stacked_widget.setCurrentIndex(2)
+        else:
+            # Could add a message box here to inform user to select a player first
+            pass
     
     # Action methods
     def start_keyboard_controller(self):
