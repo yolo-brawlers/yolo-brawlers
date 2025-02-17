@@ -3,6 +3,10 @@
 Yolo Brawlers is an OpenCV project created for HackED 2025! You can find more information about this project
 on [DevPost](https://devpost.com/software/yolo-brawlers) regarding the project development process, objectives, and motivation.
 
+## Description
+
+Yolo Brawlers is an interactive real-time motion-controlled game where two players control robotic fighters using their own body movements. Using [YOLO V11 Pose Detection](https://github.com/ultralytics/ultralytics), the system translates human fighting moves into commands for the robots, making them punch, weave, and guard dynamically.
+
 ## Gallery
 ![IMG_4483](https://github.com/user-attachments/assets/f2ba38a2-d61a-440a-8a33-d0f62f6f3232)
 
@@ -11,12 +15,6 @@ on [DevPost](https://devpost.com/software/yolo-brawlers) regarding the project d
 ![image](https://github.com/user-attachments/assets/fb3f225c-a0a8-469a-aaa4-b4840ad9dbf2)
 
 ![image](https://github.com/user-attachments/assets/d8341888-6c11-46dc-a18b-117827af595b)
-
-
-
-## Description
-
-Yolo Brawlers is an interactive real-time motion-controlled game where two players control robotic fighters using their own body movements. Using [YOLO V11 Pose Detection](https://github.com/ultralytics/ultralytics), the system translates human fighting moves into commands for the robots, making them punch, weave, and guard dynamically.
 
 ## How It Works
 
