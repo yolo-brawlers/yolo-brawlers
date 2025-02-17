@@ -4,7 +4,14 @@ from .controller import ToyController
 
 class KeyboardController(ToyController):
     def __init__(self, host="192.168.4.1", port=8080, toy_id=0):
-        super().__init__(host, port, toy_id)
+        super().__init__(
+            host=host,
+            port=port,
+            trigger1_pos=90,  # Use default or pass as needed
+            trigger2_pos=90,  # Use default or pass as needed
+            weave_pos=90,     # Use default or pass as needed
+            toy_id=toy_id     # Explicitly pass toy_id
+        )
 
     def run_keyboard_mode(self):
         print("Keyboard Control Mode")
