@@ -4,7 +4,7 @@ import cv2
 
 sys.path.append("../")
 from ml_model.yolo_fightingpose_detection import ZonePoseDetector, FightingPose
-from controller import ToyController
+from .controller import ToyController
 
 class PoseController(ToyController):
     def __init__(self, host="192.168.4.1", port=8080):
