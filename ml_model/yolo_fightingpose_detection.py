@@ -78,7 +78,7 @@ class ZonePoseDetector:
         Args:
             frame_width (int): Width of the input frame.
         """
-        middle_zone_width = int(frame_width * 0.4)
+        middle_zone_width = int(frame_width * 0.36)
         side_zone_width = (frame_width - middle_zone_width) // 2
 
         self.left_boundary = side_zone_width
