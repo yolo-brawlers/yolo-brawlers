@@ -14,6 +14,11 @@ ESP32_MAP = {
     1: "192.168.4.4"
 }
 
+CAMERA_MAP = {
+    0: "Intel/AMD",
+    1: "Apple Silicon"
+}
+
 class MainWindow(QWidget):
     """
     Main UI window with two options:
@@ -27,40 +32,40 @@ class MainWindow(QWidget):
         self.setGeometry(100, 100, 800, 600)
 
         # Layout
-        layout = QVBoxLayout()
+        self.main_layout = QVBoxLayout()
 
-        # Title Label
-        title = QLabel("Welcome to YOLO Brawlers", self)
-        title.setFont(QFont("Roboto", 28, QFont.Weight.Bold))
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # self.Title Label
+        self.title = QLabel("Welcome to YOLO Brawlers", self)
+        self.title.setFont(QFont("Roboto", 28, QFont.Weight.Bold))
+        self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Robot ID Section
-        robot_id_group = QGroupBox("Robot ID")
-        robot_id_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
-        robot_id_layout = QVBoxLayout()
+        self.robot_id_group = QGroupBox("Robot ID")
+        self.robot_id_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
+        self.robot_id_layout = QVBoxLayout()
 
         # Buttons
-        btn_camera = QPushButton("Open OpenCV Camera", self)
-        btn_camera.clicked.connect(self.open_camera)
+        self.btn_camera = QPushButton("Open OpenCV Camera", self)
+        self.btn_camera.clicked.connect(self.open_camera)
 
         # Radio Button Group for toy_id Selection
-        self.radio_group = QButtonGroup(self)
-        self.radio_0 = QRadioButton("0")
-        self.radio_1 = QRadioButton("1")
-        self.radio_0.setChecked(True)  # Default selection(Robot ID 0 is selcted)
-        self.radio_group.addButton(self.radio_0, 0)
-        self.radio_group.addButton(self.radio_1, 1)
+        self.radio_toy_group = QButtonGroup(self)
+        self.radio_toy_0 = QRadioButton("0")
+        self.radio_toy_1 = QRadioButton("1")
+        self.radio_toy_0.setChecked(True)  # Default selection(Robot ID 0 is selcted)
+        self.radio_toy_group.addButton(self.radio_toy_0, 0)
+        self.radio_toy_group.addButton(self.radio_toy_1, 1)
 
         # Add radio buttons to Robot ID layout
-        robot_id_layout.addWidget(self.radio_0)
-        robot_id_layout.addWidget(self.radio_1)
+        self.robot_id_layout.addWidget(self.radio_toy_0)
+        self.robot_id_layout.addWidget(self.radio_toy_1)
 
         # Add robot id layout to robot id group box
-        robot_id_group.setLayout(robot_id_layout)
+        self.robot_id_group.setLayout(self.robot_id_layout)
 
-        test_connection_layout = QVBoxLayout()
-        test_connection_group = QGroupBox("Connection Test")
-        test_connection_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
+        self.test_connection_layout = QVBoxLayout()
+        self.test_connection_group = QGroupBox("Connection Test")
+        self.test_connection_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
 
         # Test connection button of robot section
         self.btn_test_connection = QPushButton("Test Connection on Robot")
@@ -70,27 +75,46 @@ class MainWindow(QWidget):
         self.connection_status = QLabel("", self)
         self.connection_status.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
 
-        test_connection_layout.addWidget(self.btn_test_connection)
-        test_connection_layout.addWidget(self.connection_status)
-        test_connection_group.setLayout(test_connection_layout)
-    
+        self.test_connection_layout.addWidget(self.btn_test_connection)
+        self.test_connection_layout.addWidget(self.connection_status)
+        self.test_connection_group.setLayout(self.test_connection_layout)
+
+        # Choose Chip Type for CV Camera
+        self.chip_group = QGroupBox("Chip Type for CV Camera")
+        self.chip_group.setFont(QFont("Roboto", 20, QFont.Weight.ExtraBold))
+        self.chip_layout = QVBoxLayout()
+
+        # Radio Button Group for toy_id Selection
+        self.radio_chip_group = QButtonGroup(self)
+        self.radio_chip_0 = QRadioButton("Intel/AMD")
+        self.radio_chip_1 = QRadioButton("Apple Silicon")
+        self.radio_chip_0.setChecked(True)  # Default selection(Intel/AMD is selected)
+        self.radio_chip_group.addButton(self.radio_chip_0, 0)
+        self.radio_chip_group.addButton(self.radio_chip_1, 1)
+
+        self.chip_layout.addWidget(self.radio_chip_0)
+        self.chip_layout.addWidget(self.radio_chip_1)
+        self.chip_group.setLayout(self.chip_layout)
 
         # Add widgets to layout
-        layout.addWidget(title)
-        layout.addWidget(robot_id_group)
-        layout.addWidget(test_connection_group)
-        layout.addWidget(btn_camera)
-        layout.addStretch()
+        self.main_layout.addWidget(self.title)
+        self.main_layout.addWidget(self.robot_id_group)
+        self.main_layout.addWidget(self.test_connection_group)
+        self.main_layout.addWidget(self.chip_group)
+        self.main_layout.addWidget(self.btn_camera)
+        self.main_layout.addStretch()
 
-        self.setLayout(layout)
+        self.setLayout(self.main_layout)
 
     def open_camera(self):
         """Opens the OpenCV camera directly in a new window."""
-        selected_robot_id = self.radio_group.checkedId()  # Get selected radio button value
+        selected_robot_id = self.radio_toy_group.checkedId()  # Get selected radio button value
+        camera_mode = self.radio_chip_group.checkedId()
+        print(camera_mode)
         print(f"Selected Robot ID: {selected_robot_id}")  # Print robot id to console
         controller = PoseController(toy_id=selected_robot_id)
         if controller.connect():
-            controller.run_yolo_mode()
+            controller.run_yolo_mode(camera_mode)
         else:
             print("Failed to connect to ESP32.")
 
@@ -110,7 +134,7 @@ class MainWindow(QWidget):
                 self.connection_status.setStyleSheet("color: red;")  # Red for error
                 return
 
-            selected_robot_id = self.radio_group.checkedId()  # Get selected radio button value
+            selected_robot_id = self.radio_toy_group.checkedId()  # Get selected radio button value
             print(f"Pinging Robot {selected_robot_id}...")  # Print robot id
 
             response = os.system(f"ping -c 2 {ESP32_MAP[int(selected_robot_id)]} > /dev/null 2>&1")  # Run ping command

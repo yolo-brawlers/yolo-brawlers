@@ -26,8 +26,8 @@ class PoseController(ToyController):
         elif pose == FightingPose.GUARD:
             self.guard()
 
-    def run_yolo_mode(self):
-        cap = cv2.VideoCapture(1)
+    def run_yolo_mode(self, camera_mode):
+        cap = cv2.VideoCapture(camera_mode)
         if not cap.isOpened():
             print("Error: Could not open camera.")
             sys.exit(1)
