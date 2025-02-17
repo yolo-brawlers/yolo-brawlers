@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QGraphicsDropShadowEffect
 import sys
 
 sys.path.append("../")
+from client.PoseController import PoseController
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -398,8 +399,8 @@ class MainWindow(QWidget):
 
         # Control instructions
         control_list = QLabel(
-            "• Right Arrow - Toggle Toy 1 Trigger 1 (90⇄145 degrees)\n"
-            "• Left Arrow  - Toggle Toy 1 Trigger 2 (90⇄145 degrees)\n"
+            "• Right Arrow - Toggle Weave Right (90⇄145 degrees)\n"
+            "• Left Arrow  - Toggle Weave Left (90⇄145 degrees)\n"
             "• Up Arrow    - Guard\n"
             "• E Key       - Toggle Trigger 1\n"
             "• Q Key       - Toggle Trigger 2\n"
@@ -468,7 +469,7 @@ class MainWindow(QWidget):
         self.btn_keyboard.clicked.connect(self.start_keyboard_controller)
         
         # Camera button
-        self.btn_camera = QPushButton("Open CV Camera", control_page)
+        self.btn_camera = QPushButton("Start Pose Controller", control_page)
         self.btn_camera.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
         self.btn_camera.setMinimumHeight(50)
         self.btn_camera.setStyleSheet("""
@@ -553,14 +554,16 @@ class MainWindow(QWidget):
             print(f"Failed to start keyboard controller: {e}")
     
     def open_camera(self):
-        """Opens the OpenCV camera with the selected settings."""
-        try:
-            is_apple_silicon = self.radio_chip_1.isChecked()
-            # Implement your camera opening logic here
-            print(f"Opening camera with settings: Player {self.selected_player}, Apple Silicon: {is_apple_silicon}")
-            
-        except Exception as e:
-            print(f"Failed to open camera: {e}")
+        """Opens the OpenCV camera directly in a new window."""
+        camera_mode = int(self.radio_chip_1.isChecked())
+
+        print(camera_mode)
+        print(f"Selected Robot ID: {self.selected_player}")  # Print robot id to console
+        controller = PoseController(toy_id=self.selected_player)
+        if controller.connect():
+            controller.run_yolo_mode_UI(camera_mode)
+        else:
+            print("Failed to connect to ESP32.")
     
     def test_robot_connection(self):
         """Tests connection to the robot."""
