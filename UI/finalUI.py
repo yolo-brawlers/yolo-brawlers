@@ -18,8 +18,8 @@ class MainWindow(QWidget):
         
         # Get screen size
         screen_geometry = QDesktopWidget().availableGeometry()
-        self.window_width = 1200
-        self.window_height = 800
+        self.window_width = 1500
+        self.window_height = 1000
 
         # Calculate the position to center the window
         x_pos = (screen_geometry.width() - self.window_width) // 2
@@ -27,6 +27,9 @@ class MainWindow(QWidget):
 
         # Set the window geometry to center the window on the screen
         self.setGeometry(x_pos, y_pos, self.window_width, self.window_height)
+
+        # Set window to maximized (keeps taskbar visible)
+        # self.showMaximized()
 
         # Create stacked widget for multiple pages
         self.stacked_widget = QStackedWidget()
@@ -504,6 +507,14 @@ class MainWindow(QWidget):
         self.radio_chip_group = QButtonGroup(control_page)
         self.radio_chip_0 = QRadioButton("Intel/AMD")
         self.radio_chip_1 = QRadioButton("Apple Silicon")
+        self.radio_chip_0.setStyleSheet("""
+            QRadioButton {
+                color: white;
+            }""")
+        self.radio_chip_1.setStyleSheet("""
+            QRadioButton {
+                color: white;
+            }""")
         self.radio_chip_0.setFont(QFont("Roboto", 20))
         self.radio_chip_1.setFont(QFont("Roboto", 20))
         self.radio_chip_0.setChecked(True)
