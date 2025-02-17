@@ -14,7 +14,7 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("YOLO Brawlers")
-        
+
         # Get screen size
         screen_geometry = QDesktopWidget().availableGeometry()
         self.window_width = 1200
@@ -26,30 +26,28 @@ class MainWindow(QWidget):
 
         # Set the window geometry to center the window on the screen
         self.setGeometry(x_pos, y_pos, self.window_width, self.window_height)
-        
+
         # Create stacked widget for multiple pages
         self.stacked_widget = QStackedWidget()
-        
+
         # Load fonts
         self.load_fonts()
 
         # Store selected player
         self.selected_player = None
-        
+
         # Create pages
         self.create_pixel_art_start_page()
         self.create_player_selection_page()
-        
+
         # Set central widget
         # self.setCentralWidget(self.stacked_widget)
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.stacked_widget)
         self.setLayout(main_layout)
-        
+
         # Set initial page
         self.stacked_widget.setCurrentIndex(0)
-        
-        
 
     def load_fonts(self):
         """Load custom fonts for pixel art style"""
@@ -68,11 +66,31 @@ class MainWindow(QWidget):
             self.title_font = QFont(self.title_font_family[0], 50)
         else:
             self.title_font = QFont("Arial", 50)  # Fallback font
-    
+
+    def setup_background(self, page):
+        """Add space background to any page widget"""
+        # Create background label
+        background_label = QLabel(page)
+        pixmap = QPixmap("space_background.png")
+
+        if not pixmap.isNull():
+            scaled_pixmap = pixmap.scaled(
+                self.window_width, self.window_height, 
+                Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+            background_label.setPixmap(scaled_pixmap)
+        background_label.setScaledContents(True)
+        background_label.setGeometry(0, 0, self.window_width, self.window_height)
+
+        # Ensure background stays behind other widgets
+        background_label.lower()
+
+        return background_label
+
     def create_pixel_art_start_page(self):
         """Create the start page with pixel art background"""
         start_page = QWidget()
-        
+
         # Pixel art background label
         background_label = QLabel(start_page)
         pixmap = QPixmap("space_background.png")
@@ -109,35 +127,35 @@ class MainWindow(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.toggle_visibility)
         self.timer.start(1000)
-        
+
         # Make the start page clickable
         start_page.mousePressEvent = lambda event: self.go_to_player_selection()
-        
+
         self.stacked_widget.addWidget(start_page)
-    
+
     def toggle_visibility(self):
         """Toggle visibility of the 'Click to Start' label"""
         self.click_to_start_label.setVisible(
             not self.click_to_start_label.isVisible())
-    
+
     def create_start_page(self):
         """Create the start page with logo and start button"""
         start_page = QWidget()
         layout = QVBoxLayout()
         layout.setSpacing(20)
-        
+
         # Title with large font
         title = QLabel("YOLO Brawlers", start_page)
         title.setFont(QFont("Roboto", 48, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("color: #2c3e50; margin: 50px;")
-        
+
         # Subtitle
         subtitle = QLabel("Get ready to brawl!", start_page)
         subtitle.setFont(QFont("Roboto", 24))
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet("color: #7f8c8d; margin-bottom: 100px;")
-        
+
         # Logo placeholder
         logo = QLabel(start_page)
         # Replace this with your actual logo
@@ -145,7 +163,7 @@ class MainWindow(QWidget):
         logo.setStyleSheet("background-color: #3498db; border-radius: 150px;")
         logo.setFixedSize(300, 300)
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
+
         # Start button
         start_button = QPushButton("START GAME", start_page)
         start_button.setFont(QFont("Roboto", 20, QFont.Weight.Bold))
@@ -165,7 +183,7 @@ class MainWindow(QWidget):
             }
         """)
         start_button.clicked.connect(self.go_to_player_selection)
-        
+
         # Add widgets to layout with spacers
         layout.addWidget(title)
         layout.addWidget(subtitle)
@@ -173,70 +191,75 @@ class MainWindow(QWidget):
         layout.addStretch(1)
         layout.addWidget(start_button)
         layout.addStretch(1)
-        
+
         start_page.setLayout(layout)
         self.stacked_widget.addWidget(start_page)
-    
+
     def create_player_selection_page(self):
         """Create the player selection page with player cards"""
         player_page = QWidget()
+
+        # Add background
+        self.setup_background(player_page)
+
         layout = QVBoxLayout()
-        
-        # Title
+
+        # Title with appropriate styling for visibility over background
         title = QLabel("Choose Your Player", player_page)
         title.setFont(QFont("Roboto", 36, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("color: #2c3e50; margin: 30px;")
-        
-        # Player selection area
+        title.setStyleSheet("color: white; margin: 30px;")
+
         players_layout = QHBoxLayout()
         players_layout.setSpacing(35)
         players_layout.setContentsMargins(40, 20, 40, 20)
-        
+
         # Player 1 card
         player1_frame = self.create_player_card("Player 1", "player1.png", 0)
         players_layout.addWidget(player1_frame)
-        
+
         # Player 2 card
         player2_frame = self.create_player_card("Player 2", "player2.png", 1)
         players_layout.addWidget(player2_frame)
-        
+
         # Continue button
         continue_button = QPushButton("CONTINUE", player_page)
         continue_button.setFont(QFont("Roboto", 18, QFont.Weight.Bold))
         continue_button.setMinimumHeight(60)
-        continue_button.setStyleSheet("""
+        continue_button.setStyleSheet(
+            """
             QPushButton {
-                background-color: #3498db;
+                background-color: #9b59b6;
                 color: white;
                 border-radius: 8px;
                 padding: 10px;
             }
             QPushButton:hover {
-                background-color: #2980b9;
+                background-color: #8e44ad;
             }
             QPushButton:pressed {
-                background-color: #1f618d;
+                background-color: #6c3483;
             }
-        """)
+        """
+        )
         continue_button.clicked.connect(self.go_to_control_page)
-        
+
         # Back button
         back_button = QPushButton("Back", player_page)
         back_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
-                color: #7f8c8d;
+                color: #ffffff;
                 border: none;
                 padding: 5px;
                 text-decoration: underline;
             }
             QPushButton:hover {
-                color: #2c3e50;
+                color: #ffffff;
             }
         """)
         back_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
-        
+
         # Add widgets to layout
         layout.addWidget(title)
         layout.addLayout(players_layout)
@@ -244,10 +267,10 @@ class MainWindow(QWidget):
         layout.addWidget(continue_button)
         layout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addStretch(1)
-        
+
         player_page.setLayout(layout)
         self.stacked_widget.addWidget(player_page)
-    
+
     def create_player_card(self, name, image_path, player_id):
         """Create a styled player card with drop shadow"""
         frame = QFrame()
@@ -271,17 +294,17 @@ class MainWindow(QWidget):
 
         frame.setFixedSize(320, 400)
         frame.setCursor(Qt.PointingHandCursor)
-        
+
         # Add drop shadow
         shadow = QGraphicsDropShadowEffect()
         shadow.setBlurRadius(20)
         shadow.setColor(QColor(0, 0, 0, 150))
         shadow.setOffset(5, 5)
         frame.setGraphicsEffect(shadow)
-        
+
         # Card layout
         card_layout = QVBoxLayout(frame)
-        
+
         # Player image (placeholder)
         image = QLabel()
         try:
@@ -290,30 +313,30 @@ class MainWindow(QWidget):
         except:
             image.setStyleSheet("background-color: #2c3e50; border-radius: 10px;")
             image.setFixedSize(280, 280)
-        
+
         image.setAlignment(Qt.AlignCenter)
-        
+
         # Player name
         name_label = QLabel(name)
         name_label.setFont(QFont("Roboto", 18, QFont.Weight.Bold))
         name_label.setStyleSheet("color: white;")
         name_label.setAlignment(Qt.AlignCenter)
-        
+
         # Selection indicator
         select_label = QLabel("Click to select")
         select_label.setStyleSheet("color: #bdc3c7;")
         select_label.setAlignment(Qt.AlignCenter)
-        
+
         # Add widgets to card layout
         card_layout.addWidget(image, alignment=Qt.AlignCenter)
         card_layout.addWidget(name_label)
         card_layout.addWidget(select_label)
-        
+
         # Connect click event
         frame.mousePressEvent = lambda event, id=player_id: self.select_player(id, frame)
-        
+
         return frame
-    
+
     def select_player(self, player_id, frame):
         """Handle player selection and deselection"""
         # If clicking the already selected player, deselect it
@@ -355,36 +378,40 @@ class MainWindow(QWidget):
                         padding: 15px;
                     }
                 """)
-    
+
     def create_control_page(self):
         """Create the control page with instructions and buttons"""
         control_page = QWidget()
+
+        # Add background
+        self.setup_background(control_page)
+
         layout = QVBoxLayout()
-        
-        # Title
+
+        # Update title styling for visibility over background
         title = QLabel("Game Controls", control_page)
         title.setFont(QFont("Roboto", 32, QFont.Weight.Bold))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("color: #2c3e50; margin: 20px;")
-        
-        # Instructions
+        title.setStyleSheet("color: white; margin: 20px;")  # Changed to white for visibility
+
+        # Update instructions styling for visibility
         instructions = QLabel(
             "Welcome to YOLO Brawlers! Here's how to control your character:"
         )
         instructions.setFont(QFont("Roboto", 14))
         instructions.setWordWrap(True)
-        instructions.setStyleSheet("color: #34495e; margin: 10px;")
-        
-        # Instructions frame
+        instructions.setStyleSheet("color: white; margin: 10px;")  # Changed to white for visibility
+
+        # Update instructions frame styling for semi-transparency
         instructions_frame = QFrame()
         instructions_frame.setStyleSheet("""
             QFrame {
-                background-color: #ecf0f1;
+                background-color: rgba(236, 240, 241, 0.9);  # Added some transparency
                 border-radius: 10px;
                 padding: 15px;
             }
         """)
-        
+
         instructions_layout = QVBoxLayout(instructions_frame)
 
         # WiFi network instruction
@@ -394,7 +421,7 @@ class MainWindow(QWidget):
         )
         connection_instruction.setFont(QFont("Roboto", 14))
         connection_instruction.setWordWrap(True)
-        connection_instruction.setStyleSheet("color: #34495e; margin: 10px;")
+        connection_instruction.setStyleSheet("color: #ffffff; margin: 10px;")
         instructions_layout.addWidget(connection_instruction)
 
         # Control instructions
@@ -407,16 +434,16 @@ class MainWindow(QWidget):
             "• ESC Key     - Exit"
         )
         control_list.setFont(QFont("Consolas", 14))
-        control_list.setStyleSheet("color: #2c3e50;")
-        
+        control_list.setStyleSheet("color: #ffffff;")
+
         instructions_layout.addWidget(control_list)
-        
+
         # Chip type selection
         chip_group = QGroupBox("Select Chip Type for Camera")
         chip_group.setFont(QFont("Roboto", 16, QFont.Weight.Bold))
         chip_group.setStyleSheet("""
             QGroupBox {
-                border: 2px solid #bdc3c7;
+                border: 2px solid #ffffff;
                 border-radius: 8px;
                 padding: 15px;
                 margin-top: 20px;
@@ -425,12 +452,12 @@ class MainWindow(QWidget):
                 subcontrol-origin: margin;
                 left: 20px;
                 padding: 0 10px;
-                color: #2c3e50;
+                color: #ffffff;
             }
         """)
-        
+
         chip_layout = QHBoxLayout()
-        
+
         self.radio_chip_group = QButtonGroup(control_page)
         self.radio_chip_0 = QRadioButton("Intel/AMD")
         self.radio_chip_1 = QRadioButton("Apple Silicon")
@@ -439,15 +466,15 @@ class MainWindow(QWidget):
         self.radio_chip_0.setChecked(True)
         self.radio_chip_group.addButton(self.radio_chip_0, 0)
         self.radio_chip_group.addButton(self.radio_chip_1, 1)
-        
+
         chip_layout.addWidget(self.radio_chip_0)
         chip_layout.addWidget(self.radio_chip_1)
         chip_group.setLayout(chip_layout)
-        
+
         # Button layout
         button_layout = QHBoxLayout()
         button_layout.setSpacing(20)
-        
+
         # Keyboard controller button
         self.btn_keyboard = QPushButton("Start Keyboard Controller", control_page)
         self.btn_keyboard.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
@@ -467,7 +494,7 @@ class MainWindow(QWidget):
             }
         """)
         self.btn_keyboard.clicked.connect(self.start_keyboard_controller)
-        
+
         # Camera button
         self.btn_camera = QPushButton("Start Pose Controller", control_page)
         self.btn_camera.setFont(QFont("Roboto", 14, QFont.Weight.Bold))
@@ -487,26 +514,26 @@ class MainWindow(QWidget):
             }
         """)
         self.btn_camera.clicked.connect(self.open_camera)
-        
+
         button_layout.addWidget(self.btn_keyboard)
         button_layout.addWidget(self.btn_camera)
-        
+
         # Back button
         back_button = QPushButton("Back to Player Selection", control_page)
         back_button.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
-                color: #7f8c8d;
+                color: #ffffff;
                 border: none;
                 padding: 5px;
                 text-decoration: underline;
             }
             QPushButton:hover {
-                color: #2c3e50;
+                color: #ffffff;
             }
         """)
         back_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(1))
-        
+
         # Add widgets to layout
         layout.addWidget(title)
         layout.addWidget(instructions)
@@ -516,43 +543,43 @@ class MainWindow(QWidget):
         layout.addLayout(button_layout)
         layout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addStretch(1)
-        
+
         control_page.setLayout(layout)
         self.stacked_widget.addWidget(control_page)
-    
+
     # Navigation methods
     def go_to_player_selection(self):
         self.stacked_widget.setCurrentIndex(1)
-    
+
     def go_to_control_page(self):
         """Navigate to control page only if a player is selected"""
         if self.selected_player is not None:
             # Remove existing control page if it exists
             if self.stacked_widget.count() > 2:  # If we have more than start and player selection pages
                 self.stacked_widget.removeWidget(self.stacked_widget.widget(2))
-            
+
             # Create new control page with current player selection
             self.create_control_page()
             self.stacked_widget.setCurrentIndex(2)
         else:
             # Could add a message box here to inform user to select a player first
             pass
-    
+
     # Action methods
     def start_keyboard_controller(self):
         """Starts the keyboard controller in a dialog."""
         try:
             from client.KeyboardController import KeyboardController
             from keyboard_controller_dialog import KeyboardControllerDialog
-            
+
             # Pass the selected player ID to the controller
             self.controller = KeyboardController(toy_id=self.selected_player)
             dialog = KeyboardControllerDialog(self.controller, self)
             dialog.exec_()
-            
+
         except Exception as e:
             print(f"Failed to start keyboard controller: {e}")
-    
+
     def open_camera(self):
         """Opens the OpenCV camera directly in a new window."""
         camera_mode = int(self.radio_chip_1.isChecked())
@@ -564,25 +591,25 @@ class MainWindow(QWidget):
             controller.run_yolo_mode_UI(camera_mode)
         else:
             print("Failed to connect to ESP32.")
-    
+
     def test_robot_connection(self):
         """Tests connection to the robot."""
         try:
             from client.KeyboardController import KeyboardController
-            
+
             # Create temporary controller to test connection
             temp_controller = KeyboardController(toy_id=self.selected_player)
             success = temp_controller.test_connection()
-            
+
             if success:
                 self.connection_status.setText("Connected successfully!")
                 self.connection_status.setStyleSheet("color: green;")
             else:
                 self.connection_status.setText("Connection failed!")
                 self.connection_status.setStyleSheet("color: red;")
-            
+
             temp_controller.close()
-            
+
         except Exception as e:
             self.connection_status.setText(f"Error: {str(e)}")
             self.connection_status.setStyleSheet("color: red;")
