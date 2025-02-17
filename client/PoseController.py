@@ -1,6 +1,8 @@
 import time
 import sys
 import cv2
+
+sys.path.append("../")
 from ml_model.yolo_fightingpose_detection import ZonePoseDetector, FightingPose
 from controller import ToyController
 

@@ -1,6 +1,9 @@
 from PoseController import PoseController
 from KeyboardController import KeyboardController
 import sys
+import os
+
+
 
 def main():
     mode = input("Choose mode (yolo/keyboard): ").strip().lower()
