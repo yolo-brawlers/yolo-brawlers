@@ -19,8 +19,14 @@ bool ServoManager::setServoAngle(uint8_t toy_id, uint8_t servo_type,
 
   int servo_index = getServoIndex(toy_id, servo_type);
   int constrained_angle = constrain(angle, 0, 180);
-  servos[servo_index].writeMicroseconds(
+  if (servo_index == 2) {
+    servos[servo_index].write(constrained_angle);
+  } else {
+    servos[servo_index].writeMicroseconds(
       map(constrained_angle, 0, 180, 500, 2400));
+  }
+  
+  
 
   const char *servo_names[] = {"Trigger1", "Trigger2", "Weave"};
   Serial.printf("Toy%d %s set to angle %d\n", toy_id + 1,
