@@ -75,7 +75,7 @@ class MainWindow(QWidget):
         """Add space background to any page widget"""
         # Create background label
         background_label = QLabel(page)
-        pixmap = QPixmap("space_background.png")
+        pixmap = QPixmap("assets/space_background.png")
 
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(
@@ -97,7 +97,7 @@ class MainWindow(QWidget):
 
         # Pixel art background label
         background_label = QLabel(start_page)
-        pixmap = QPixmap("space_background.png")
+        pixmap = QPixmap("assets/space_background.png")
 
         if not pixmap.isNull():
             scaled_pixmap = pixmap.scaled(
@@ -219,11 +219,11 @@ class MainWindow(QWidget):
         players_layout.setContentsMargins(40, 20, 40, 20)
 
         # Player 1 card
-        player1_frame = self.create_player_card("Player 1", "p1.png", 0, "p1_selected.png")
+        player1_frame = self.create_player_card("Player 1", "assets/p1.png", 0, "assets/p1_selected.png")
         players_layout.addWidget(player1_frame)
 
         # Player 2 card
-        player2_frame = self.create_player_card("Player 2", "p2.png", 1, "p2_selected.png")
+        player2_frame = self.create_player_card("Player 2", "assets/p2.png", 1, "assets/p2_selected.png")
         players_layout.addWidget(player2_frame)
 
         # Continue button
