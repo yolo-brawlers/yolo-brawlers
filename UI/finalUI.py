@@ -638,11 +638,16 @@ class MainWindow(QWidget):
         """Opens the OpenCV camera directly in a new window."""
         camera_mode = int(self.radio_chip_1.isChecked())
 
+        # Minimize application when camera is opened
+        self.showMinimized()
         print(camera_mode)
         print(f"Selected Robot ID: {self.selected_player}")  # Print robot id to console
         controller = PoseController(toy_id=self.selected_player)
         if controller.connect():
             controller.run_yolo_mode_UI(camera_mode)
+
+            # Once camera is closed, open application
+            self.showNormal()
         else:
             print("Failed to connect to ESP32.")
 
