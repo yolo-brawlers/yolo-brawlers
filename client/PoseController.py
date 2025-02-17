@@ -15,7 +15,9 @@ class PoseController(ToyController):
         """Send appropriate servo commands based on detected pose."""
         if pose == FightingPose.PUNCH_RIGHT:
             self.toggle_trigger1()
+            self.toggle_trigger1()
         elif pose == FightingPose.PUNCH_LEFT:
+            self.toggle_trigger2()
             self.toggle_trigger2()
         elif pose == FightingPose.WEAVE_RIGHT:
             self.weave_right()

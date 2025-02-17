@@ -36,7 +36,7 @@ class ZonePoseDetector:
     def setup_zones(self, frame_width):
         """Setup the zone boundaries based on frame width with wider middle zone"""
         # Make middle zone 40% of frame width, leaving 30% for side zones
-        middle_zone_width = int(frame_width * 0.4)
+        middle_zone_width = int(frame_width * 0.35)
         side_zone_width = (frame_width - middle_zone_width) // 2
         
         self.left_boundary = side_zone_width
