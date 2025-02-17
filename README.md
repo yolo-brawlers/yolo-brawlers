@@ -11,8 +11,9 @@ Yolo Brawlers is an interactive real-time motion-controlled game where two playe
 
 1. Pose Detection (YOLO + OpenCV): The system uses YOLO pose estimation to track players' movements in real time.
 2. Move Classification: The AI recognizes different fighting poses (punches, weaves, guard stance).
-3. Robot Control: Commands are sent to the robots via ESP32-based servo controllers, allowing them to mimic the player's movements.
-4. Multiplayer Battle: Two players compete by controlling their own robotic fighters with body movements.
+3. ESP32 Controller: The firmware uploaded to the ESP32 controls servo motors connected to the ESP32 GPIO pins
+4. Robot Control: Detected player actions are sent to the ESP32 controller using sockets at its WiFi access point. The data is used to control the robots to mimic boxing maneuvers like punching, weaving and guarding.
+5. Multiplayer Battle: Two players compete by controlling their own robotic fighters with body movements.
 
 # Tech/Hardware Stack
 
@@ -31,6 +32,12 @@ Yolo Brawlers is an interactive real-time motion-controlled game where two playe
 4. Enter the conda environment by entering `conda activate ultralytics-env`.
 5. Install necessary python libraries in conda environment using `pip install -r requirements.txt`.
 6. Run the project inside the UI folder using `python3 finalUI.py`.
+
+# Running the Program
+1. Ensure you have the firmware in the /controller PlatformIO project installed on the ESP32 Microntroller
+2. Power the Microcontrollers and on your laptop, connect to their WiFi network (ESP32_Servo_Control_Red or ESP32_Servo_Control_Blue)
+2. Navigate to the ./UI directory and run `python finalUI.py`
+3. Follow the instructions on the UI
 
 # Notes
 
