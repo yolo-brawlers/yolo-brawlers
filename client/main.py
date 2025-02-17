@@ -1,4 +1,5 @@
 from PoseController import PoseController
+from ml_model.yolo_fightingpose_detection import ZonePoseDetector 
 from KeyboardController import KeyboardController
 import sys
 import os
@@ -20,6 +21,9 @@ def main():
             controller.run_keyboard_mode()
         else:
             print("Failed to connect to ESP32.")
+
+    elif mode == "test":
+        model = ZonePoseDetector()
     else:
         print("Invalid mode. Choose 'yolo' or 'keyboard'.")
 

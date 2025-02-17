@@ -113,11 +113,15 @@ class ToyController:
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
         if self.toy_id == 0:
             self.weave_pos = 90
+            self.trigger1_pos = 150
+            self.trigger2_pos = 30
             self.set_servo(0, self.servo_right_punch, 150)
             self.set_servo(0, self.servo_left_punch, 30)
 
         else:
             self.weave_pos = 110
+            self.trigger1_pos = 180
+            self.trigger2_pos = 20
             self.set_servo(0, self.servo_right_punch, 180)
             self.set_servo(0, self.servo_left_punch, 20)
 
