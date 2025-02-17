@@ -107,5 +107,8 @@ class ToyController:
     
     def guard(self):
         """Toggle Toy 1 Weave between 90 and 145 degrees"""
+        self.set_servo(self.toy_id, self.servo_right_punch, 150)
+        self.set_servo(self.toy_id, self.servo_left_punch, 30)
         self.weave_pos = 90
-        return self.set_servo(self.toy_id, 2, self.weave_pos)
+        return self.set_servo(self.toy_id, self.servo_weave, self.weave_pos)
+    
