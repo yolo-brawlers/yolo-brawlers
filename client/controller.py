@@ -99,7 +99,7 @@ class ToyController:
         if self.toy_id == 0:
             self.weave_pos = 45
         else:
-            self.weave_pos = 65
+            self.weave_pos = 135
         return self.set_servo(0, self.servo_weave, self.weave_pos)
 
     def weave_left(self):
@@ -107,7 +107,7 @@ class ToyController:
         if self.toy_id == 0:
             self.weave_pos = 110
         else:
-            self.weave_pos = 135
+            self.weave_pos = 65
         return self.set_servo(0, 2, self.weave_pos)
 
     def guard(self):
