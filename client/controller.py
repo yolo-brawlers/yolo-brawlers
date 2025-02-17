@@ -8,18 +8,26 @@ class ToyController:
         self.host = host
         self.port = port
         self.socket = None
-        
+
         self.toy_id = toy_id
 
         if toy_id == 0:  # Player 1
-            self.set_servo(toy_id, 0, trigger1_pos)  # Starting position for trigger 1
-            self.trigger1_pos = trigger1_pos
+            # self.set_servo(toy_id, 0, trigger1_pos)  # Starting position for trigger 1
+            # self.trigger1_pos = trigger1_pos
 
-            self.set_servo(toy_id, 1, trigger2_pos)  # Starting position for trigger 2 (left punch)
-            self.trigger2_pos = trigger2_pos
+            # self.set_servo(toy_id, 1, trigger2_pos)  # Starting position for trigger 2 (left punch)
+            # self.trigger2_pos = trigger2_pos
 
-            self.weave = self.set_servo(toy_id, 2, weave_pos)  # Starting position should be guard
-            self.weave = weave_pos
+            # self.weave = self.set_servo(toy_id, 2, weave_pos)  # Starting position should be guard
+            # self.weave = weave_pos
+            self.trigger1_pos = 150
+            self.set_servo(toy_id, 0, self.trigger1_pos)  # Starting position for trigger 1
+
+            self.trigger2_pos = 30
+            self.set_servo(toy_id, 1, self.trigger2_pos)  # Starting position for trigger 2 (left punch)
+
+            self.weave_pos = 90
+            self.weave = self.set_servo(toy_id, 2, self.weave_pos)  # Starting position should be guard
         else:  # Player 2
             self.trigger1_pos = 0
             self.set_servo(toy_id, 0, self.trigger1_pos)  # Starting position for trigger 1
