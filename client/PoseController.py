@@ -26,6 +26,37 @@ class PoseController(ToyController):
         elif pose == FightingPose.GUARD:
             self.guard()
 
+    def run_yolo_mode(self):
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            print("Error: Could not open camera.")
+            sys.exit(1)
+
+        current_pose = None
+
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    print("Error: Failed to capture frame.")
+                    break
+
+                annotated_frame, pose = self.detector.process_frame(frame)
+
+                if pose and pose != current_pose:
+                    print(f"Detected pose: {pose.value}")
+                    current_pose = pose
+                    self.handle_pose(pose)
+
+                cv2.imshow("Fighting Pose Detection", annotated_frame)
+
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+
+        finally:
+            cap.release()
+            cv2.destroyAllWindows()
+
     def run_yolo_mode_UI(self, camera_mode):
         cap = cv2.VideoCapture(camera_mode)
         if not cap.isOpened():
